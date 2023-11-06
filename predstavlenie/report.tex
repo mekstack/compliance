@@ -1,0 +1,193 @@
+\documentclass[14pt, a4paper]{extarticle}
+
+\usepackage{polyglossia} % Поддержка многоязычности (fontspec подгружается автоматически)
+\setmainlanguage[babelshorthands=true]{russian} % Язык по-умолчанию русский с поддержкой приятных команд пакета babel
+\setotherlanguage{english} % Дополнительный язык = английский (в американской вариации по-умолчанию)
+\setmonofont{CMU Typewriter Text} % моноширинный шрифт
+\newfontfamily\cyrillicfonttt{CMU Typewriter Text} % моноширинный шрифт для кириллицы
+\defaultfontfeatures{Ligatures=TeX} % стандартные лигатуры TeX, замены нескольких дефисов на тире и т. п. Настройки моноширинного шрифта должны идти до этой строки, чтобы при врезках кода программ в коде не применялись лигатуры и замены дефисов
+\setmainfont{CMU Serif} % Шрифт с засечками
+\newfontfamily\cyrillicfont{PT Astra Serif}[Script = Cyrillic] % Шрифт с засечками для кириллицы
+\setsansfont{CMU Sans Serif} % Шрифт без засечек
+\newfontfamily\cyrillicfontsf{CMU Sans Serif} % Шрифт без засечек для кириллицы
+
+\usepackage{amsmath}
+\usepackage{unicode-math}
+\usepackage{float}
+\usepackage[figurename=Рисунок]{caption, subcaption}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{indentfirst}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=black,citecolor=black]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[lighttt]{lmodern}
+\usepackage{appendix}
+\graphicspath{{./images/}}
+\geometry{left=30mm,
+          right=10mm,
+          top=20mm,
+          bottom=20mm}
+
+\usepackage{fontspec}
+\setmonofont[
+  Contextuals={Alternate},
+  Scale=MatchLowercase
+]{Fira Mono for Powerline}
+\lstdefinestyle{bash}{
+    basicstyle=\ttfamily,
+    framerule=10pt,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    columns=fullflexible,
+    literate={-}{-}1
+}
+
+\lstset{style=bash}
+\setmathfont{Latin Modern Math}
+
+
+\renewcommand{\figurename}{Рисунок}
+\renewcommand{\lstlistingname}{Исходный код}
+
+\DeclareSymbolFont{cyrletters}{\encodingdefault}{\familydefault}{m}{it}
+\newcommand{\makecyrmathletter}[1]{%
+\begingroup\lccode`a=#1\lowercase{\endgroup
+\Umathcode`a}="0 \csname symcyrletters\endcsname\space #1
+}
+\count255="409
+\loop\ifnum\count255<"44F
+\advance\count255 by 1
+\makecyrmathletter{\count255}
+\repeat
+
+\definecolor{mygray}{rgb}{0.3,0.3,0.3}
+
+\let\oldtexttt\texttt
+\renewcommand{\texttt}[1]{\textcolor{mygray}{\oldtexttt{#1}}}
+
+
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\theequation}{\arabic{figure}}
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+
+\date{\today}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        Федеральное государственное автономное образовательное учреждение высшего
+        образования\par
+        НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ\par ВЫСШАЯ ШКОЛА ЭКОНОМИКИ\par
+        \vspace{1cm}
+        Московский институт электроники и математики им. А.Н. Тихонова \\
+        \vspace{1cm}
+        Проект 19106 \\
+        \vspace{2cm}
+    \end{center}
+
+    \begin{center}
+        ТЕХНИЧЕСКОЕ ЗАДАНИЕ \\
+        на разработку информационной системы \\
+        \textbf{Mekstack: Приватное Облако} \\
+    \end{center}
+    \vfill
+
+    \begin{minipage}[t]{0.5\textwidth}
+        \begin{center}
+        УТВЕРЖДАЮ
+        \end{center}
+        \begin{flushleft}
+        Рыбаков Петр Владимирович\\
+        Руководитель направления\\
+
+        \vspace{0.5cm}
+        Подпись
+        \vspace{0.5cm}
+
+        \today
+        \end{flushleft}
+    \end{minipage}%
+
+    \vspace{2cm}
+
+    \begin{minipage}[t]{0.5\textwidth}
+        \begin{center}
+        СОГЛАСОВАНО
+        \end{center}
+        \begin{flushleft}
+        Емельяненко Максим Владимирович\\
+        Руководитель проекта
+
+        \vspace{0.5cm}
+        Подпись
+        \vspace{0.5cm}
+
+        \today
+        \end{flushleft}
+    \end{minipage}%
+
+    \vspace{2cm}
+    \center
+    Москва, 2023
+\end{titlepage}
+
+\pagenumbering{roman}
+
+\tableofcontents
+
+\pagebreak
+
+\pagenumbering{arabic}
+
+\section{Актуальность проекта}
+
+Сегодня редко какой проект обходится без необходимости в выделенной виртуальной
+инфраструктуры, которая предоставляется университетом. Несмотря на очевидную
+пользу, которую приносит использование виртуальной инфраструктуры, это также
+порождает новый пласт потребностей пользователей, который и призван решать
+данный проект.
+
+Студентам МИЭМ нужно:
+
+\begin{enumerate}
+
+\item Наличие удобной и быстрой документации с функцией поиска, которая позволит в полной мере реализовать потенциал приватного облака и поможет пользователям ориентироваться в различных подходах облачных решений с примерами.
+\item Высокодоступная система, которая в том числе умеет автоматически восстанавливаться после внезапного отключения (disaster recovery), например после отключения электричества во всем кампусе.
+\item Поддержка современных технологий (Database as a Service, Managed Kubernetes, S3, Terraform), которые используются в современных IT-компаниях и позволят студентам получить необходимый опыт работы.
+\item Более самостоятельный подход к решению проблем, чтобы минимизировать зависимость от техподдержки и снизить нагрузку на сотрудников, отвечающих за обработку заявок.
+\item Комплексный мониторинг состояния виртуальных машин и облачных сервисов, с возможностью кастомизации метрик и настройки системы уведомлений для своевременного реагирования на проблемы.
+\item Интерфейс или система управления, которая позволила бы пользователям самостоятельно управлять своими ресурсами в облаке без посторонней помощи.
+\item Возможность подключаться к виртуальной инфраструктуре с доменной авторизацией ВШЭ.
+\item Возможность самостоятельно создавать OpenID клиенты для настройки доменной авторизации на своих информационных система.
+\item Возможность публиковать свои информационные системы в интернете.
+\item Доступ к техподдержке для решения возникающих проблем.
+
+\end{enumerate}
+
+Преподавателям МИЭМ нужно
+
+\begin{enumerate}
+\item Возможность автоматизации сценариев для лабораторных работ, например, создание виртуальных машин.
+\end{enumerate}
+
+\begin{enumerate}
+\item Сотрудникам МИЭМ нужно.
+\item Контроль используемых и заброшенных ресурсов.
+\item Система логирования для отслеживания действий и изменений в их виртуальных средах, что обеспечит возможность аудита и поможет в диагностике проблем.
+\item Система реагирования на инциденты.
+\item Изолированная от критических узлов ВШЭ студенческая инфраструктура.
+\item Снизить нагрузку на персонал, обслуживающий виртуальные машины.
+\end{enumerate}
+
+
+\end{document}
