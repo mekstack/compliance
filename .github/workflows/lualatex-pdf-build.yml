@@ -10,6 +10,10 @@ on:
 
 jobs:
   build:
+    permissions:
+    contents: write
+    pull-requests: write
+
     runs-on: ubuntu-latest
     steps:
     - name: Set up Git repository
@@ -24,17 +28,17 @@ jobs:
         extra_fonts: |
           ../fonts/*
 
-    - name: Commit and Push Changes
-      run: |
-        git config --local user.email "github-actions@github.com"
-        git config --local user.name "GitHub Actions"
-        git add .
-        git commit -m "chore(ci): build pdf" || echo "No changes to commit"
-        git push
-
-    - name: Upload pdf artifact
-      uses: actions/upload-artifact@v3
+    - name: Pull request artifacts
+      uses: gavv/pull-request-artifacts@v2
       with:
-        name: report.pdf
-        path: predstavlenie/report.pdf
-      if: always()
+        commit: ${{ github.event.pull_request.head.sha }}
+
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+        artifacts-branch: artifacts
+
+        comment-title: "chore(ci): upload pdf artifact"
+        comment-style: list
+
+        artifacts: |
+          predstavlenie/report.pdf
