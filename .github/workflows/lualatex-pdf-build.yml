@@ -35,6 +35,6 @@ jobs:
     - name: Upload pdf artifact
       uses: actions/upload-artifact@v3
       with:
-        name: report
-        path: predstavlenie/*.pdf
+        name: report.pdf
+        path: predstavlenie/report.pdf
       if: always()
