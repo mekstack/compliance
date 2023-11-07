@@ -4,9 +4,13 @@ on:
   push:
     paths:
       - '**.tex'
+    branches-ignore:
+      - artifacts
   pull_request:
     branches:
       - master
+    branches-ignore:
+      - artifacts
 
 jobs:
   build:
