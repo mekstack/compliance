@@ -11,8 +11,8 @@ on:
 jobs:
   build:
     permissions:
-    contents: write
-    pull-requests: write
+      contents: write
+      pull-requests: write
 
     runs-on: ubuntu-latest
     steps:
@@ -32,13 +32,9 @@ jobs:
       uses: gavv/pull-request-artifacts@v2
       with:
         commit: ${{ github.event.pull_request.head.sha }}
-
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-
         artifacts-branch: artifacts
-
-        comment-title: "chore(ci): upload pdf artifact"
+        comment-title: "Built PDF"
         comment-style: list
-
         artifacts: |
           predstavlenie/report.pdf
