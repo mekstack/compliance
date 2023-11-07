@@ -1,0 +1,44 @@
+name: Build pdf
+
+on:
+  push:
+    paths:
+      - '**.tex'
+    branches-ignore:
+      - artifacts
+  pull_request:
+    branches:
+      - master
+    branches-ignore:
+      - artifacts
+
+jobs:
+  build:
+    permissions:
+      contents: write
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v3
+
+    - name: Build latex project
+      uses: xu-cheng/latex-action@v3
+      with:
+        root_file: report.tex
+        latexmk_use_lualatex: true
+        working_directory: predstavlenie/
+        extra_fonts: |
+          ../fonts/*
+
+    - name: Pull request artifacts
+      uses: gavv/pull-request-artifacts@v2
+      with:
+        commit: ${{ github.event.pull_request.head.sha }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts-branch: artifacts
+        comment-title: "Built PDF"
+        comment-style: list
+        artifacts: |
+          predstavlenie/report.pdf
