@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - '**.tex'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
