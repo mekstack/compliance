@@ -1,11 +1,6 @@
 name: Build pdf
 
 on:
-  push:
-    paths:
-      - '**.tex'
-    branches-ignore:
-      - artifacts
   pull_request:
     branches:
       - master
