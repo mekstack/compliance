@@ -20,6 +20,8 @@ jobs:
         root_file: report.tex
         latexmk_use_lualatex: true
         working_directory: predstavlenie/
+        extra_fonts: |
+          ./fonts/*
 
     - name: Commit and Push Changes
       run: |
